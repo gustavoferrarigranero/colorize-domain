@@ -32,6 +32,6 @@
   "background": {
     "service_worker": "background.js"
   },
-  "author": "https://github.com/anomalyco/colorize-domain",
-  "homepage_url": "https://github.com/anomalyco/colorize-domain"
+  "author": "https://github.com/gustavoferrarigranero",
+  "homepage_url": "https://gustavoferrarigranero.github.io/colorize-domain/"
 }
