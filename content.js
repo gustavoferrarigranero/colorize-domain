@@ -9,41 +9,37 @@ function normalizeDomain(domain) {
     .toLowerCase();
 }
 
-async function applyRules() {
-  const result = await chrome.storage.sync.get(STORAGE_KEY);
-  const rules = result[STORAGE_KEY] || [];
-  const currentHost = window.location.hostname;
-
-  const matched = rules.filter(r => {
-    const nd = normalizeDomain(r.domain);
-    return currentHost === nd ||
-      currentHost.endsWith('.' + nd) ||
-      nd.endsWith('.' + currentHost);
-  });
-
-  for (const rule of matched) {
-    try {
-      document.querySelectorAll(rule.selector).forEach(el => {
-        el.style.setProperty('background-color', rule.color, 'important');
+function applyRules() {
+  chrome.storage.sync.get(STORAGE_KEY).then(function(data) {
+    const rules = data[STORAGE_KEY] || [];
+    const currentHost = window.location.hostname;
+    const matched = rules.filter(function(r) {
+      var nd = normalizeDomain(r.domain);
+      return currentHost === nd ||
+        currentHost.endsWith('.' + nd) ||
+        nd.endsWith('.' + currentHost);
+    });
+    for (var i = 0; i < matched.length; i++) {
+      var els = document.querySelectorAll(matched[i].selector);
+      els.forEach(function(el) {
+        el.style.setProperty('background-color', matched[i].color, 'important');
+        el.style.setProperty('background', matched[i].color, 'important');
       });
-    } catch (e) {
     }
-  }
+  }).catch(function() {});
 }
 
-applyRules();
+try { applyRules(); } catch (e) {}
 
-const observer = new MutationObserver(() => applyRules());
+var observer = new MutationObserver(function() { try { applyRules(); } catch (e) {} });
 if (document.body) {
   observer.observe(document.body, { childList: true, subtree: true });
 } else {
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', function() {
     observer.observe(document.body, { childList: true, subtree: true });
   });
 }
 
-chrome.runtime.onMessage.addListener((msg) => {
-  if (msg.type === 'rules-updated') {
-    applyRules();
-  }
+chrome.runtime.onMessage.addListener(function(msg) {
+  if (msg.type === 'rules-updated') try { applyRules(); } catch (e) {}
 });
