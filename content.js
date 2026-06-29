@@ -15,6 +15,7 @@ function applyRules() {
     const currentHost = window.location.hostname;
     const matched = rules.filter(function(r) {
       var nd = normalizeDomain(r.domain);
+      if (r.exact) return currentHost === nd;
       return currentHost === nd ||
         currentHost.endsWith('.' + nd) ||
         nd.endsWith('.' + currentHost);
