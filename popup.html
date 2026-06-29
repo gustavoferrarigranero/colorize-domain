@@ -86,6 +86,28 @@
     }
     input[type="color"]::-webkit-color-swatch-wrapper { padding: 2px; }
     input[type="color"]::-webkit-color-swatch { border: none; border-radius: 6px; }
+    .input-group .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: normal;
+      color: #94a3b8;
+      cursor: pointer;
+      user-select: none;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .input-group .checkbox-label input[type="checkbox"] {
+      width: 10px;
+      height: 10px;
+      accent-color: #6366f1;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin: 0;
+    }
     button {
       border: none;
       cursor: pointer;
@@ -150,6 +172,17 @@
       color: #64748b;
       font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
     }
+    .exact-badge {
+      font-size: 10px;
+      font-weight: 600;
+      color: #6366f1;
+      background: #eef2ff;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-left: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
     .btn-remove {
       background: #fee2e2;
       color: #ef4444;
@@ -177,6 +210,18 @@
       margin-bottom: 8px;
       opacity: 0.5;
     }
+    .header-donate {
+      font-size: 11px;
+      color: #94a3b8;
+      margin: 2px 0 0 0;
+    }
+    .header-donate a {
+      color: #94a3b8;
+      text-decoration: none;
+    }
+    .header-donate a:hover {
+      color: #6366f1;
+    }
   </style>
 </head>
 <body>
@@ -185,11 +230,16 @@
     <div>
       <h2>Colorize Domain</h2>
       <p class="subtitle">Pinte elementos por domínio</p>
+      <p class="header-donate"><a href="https://buymeacoffee.com/gustavoferrarigranero" target="_blank">☕ doar</a></p>
     </div>
   </div>
   <div class="input-group">
     <label for="domain">Domínio</label>
     <input id="domain" type="text" placeholder="ex: github.com">
+    <label class="checkbox-label">
+      <input id="exactDomain" type="checkbox">
+      Apenas domínio exato (ignora subdomínios)
+    </label>
     <label for="selector">Seletor CSS</label>
     <input id="selector" type="text" placeholder="ex: header, div.classe">
     <label for="color">Cor</label>

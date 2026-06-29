@@ -17,7 +17,7 @@ function createRuleEl(rule, index) {
   div.innerHTML = `
     <div class="swatch" style="background:${rule.color}"></div>
     <div class="info">
-      <div class="domain">${escapeHtml(rule.domain)}</div>
+      <div class="domain">${escapeHtml(rule.domain)}${rule.exact ? ' <span class="exact-badge">exato</span>' : ''}</div>
       <div class="selector">${escapeHtml(rule.selector)}</div>
     </div>
     <button class="btn-remove" data-index="${index}">Remover</button>
@@ -60,13 +60,15 @@ document.getElementById('addBtn').addEventListener('click', async () => {
   const domain = document.getElementById('domain').value.trim();
   const selector = document.getElementById('selector').value.trim();
   const color = document.getElementById('color').value;
+  const exact = document.getElementById('exactDomain').checked;
   if (!domain || !selector) return;
   const rules = await getRules();
   const normalizedDomain = normalizeDomain(domain);
-  rules.push({ domain: normalizedDomain, selector, color });
+  rules.push({ domain: normalizedDomain, selector, color, exact });
   await saveRules(rules);
   document.getElementById('domain').value = '';
   document.getElementById('selector').value = '';
+  document.getElementById('exactDomain').checked = false;
 });
 
 renderRules();
