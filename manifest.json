@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Colorize Domain",
   "short_name": "Colorize",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Altere a cor de fundo de qualquer elemento CSS em domínios específicos. Personalize a aparência de sites automaticamente.",
   "permissions": ["storage"],
   "host_permissions": ["*://*/*"],
