@@ -66,11 +66,11 @@
     .header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
     .header-left { flex: 1; display: flex; align-items: center; gap: 10px; }
     .header-icon {
-      width: 28px; height: 28px; border-radius: 8px;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      width: 48px; height: 48px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 15px; flex-shrink: 0;
+      flex-shrink: 0; overflow: hidden;
     }
+    .header-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
     h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: var(--heading); }
     .subtitle { font-size: 12px; color: var(--text-muted); margin: -4px 0 0 0; }
     .header-donate { font-size: 11px; color: var(--text-faint); margin: 2px 0 0 0; }
@@ -170,11 +170,11 @@
 <body>
   <div class="header">
     <div class="header-left">
-      <div class="header-icon">🎨</div>
+      <div class="header-icon"><img src="icons/icon128.png" alt=""></div>
       <div>
         <h2>Colorize Domain</h2>
         <p class="subtitle">Pinte elementos por domínio</p>
-        <p class="header-donate"><a href="https://buymeacoffee.com/gustavoferrarigranero" target="_blank">☕ doar</a></p>
+        <p class="header-donate"><a href="https://buymeacoffee.com/gustavoferrarigranero" target="_blank">Gostou? Me pague um café clicando aqui!</a></p>
       </div>
     </div>
     <button class="btn-settings" id="settingsBtn" title="Configurações">⚙</button>
@@ -192,7 +192,7 @@
     <input id="domain" type="text" placeholder="ex: github.com">
     <label class="checkbox-label">
       <input id="exactDomain" type="checkbox">
-      Apenas domínio exato (ignora subdomínios)
+      Marque aqui p/ aplicar apenas no domínio exatamente como informado
     </label>
     <label for="selector">Seletor CSS</label>
     <input id="selector" type="text" placeholder="ex: header, div.classe">
