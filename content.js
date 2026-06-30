@@ -11,18 +11,25 @@ function normalizeDomain(domain) {
 
 function applyRules() {
   chrome.storage.sync.get(STORAGE_KEY).then(function(data) {
+    document.querySelectorAll('[data-colorize]').forEach(function(el) {
+      el.style.removeProperty('background-color');
+      el.style.removeProperty('background');
+      el.removeAttribute('data-colorize');
+    });
     const rules = data[STORAGE_KEY] || [];
     const currentHost = window.location.hostname;
     const matched = rules.filter(function(r) {
       var nd = normalizeDomain(r.domain);
-      if (r.exact) return currentHost === nd;
-      return currentHost === nd ||
-        currentHost.endsWith('.' + nd) ||
-        nd.endsWith('.' + currentHost);
+      var ch = normalizeDomain(currentHost);
+      if (r.exact) return ch === nd;
+      return ch === nd ||
+        ch.endsWith('.' + nd) ||
+        nd.endsWith('.' + ch);
     });
     for (var i = 0; i < matched.length; i++) {
       var els = document.querySelectorAll(matched[i].selector);
       els.forEach(function(el) {
+        el.setAttribute('data-colorize', '');
         el.style.setProperty('background-color', matched[i].color, 'important');
         el.style.setProperty('background', matched[i].color, 'important');
       });
