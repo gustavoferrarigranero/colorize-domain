@@ -1,8 +1,58 @@
 ﻿<!DOCTYPE html>
-<html>
+<html data-theme="light">
 <head>
   <meta charset="utf-8">
   <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --text-soft: #475569;
+      --text-muted: #64748b;
+      --text-faint: #94a3b8;
+      --heading: #0f172a;
+      --border: #e2e8f0;
+      --border-light: #f1f5f9;
+      --input-bg: #f8fafc;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --empty-border: #e2e8f0;
+      --card-hover-border: #e2e8f0;
+      --badge-bg: #eef2ff;
+      --red-bg: #fee2e2;
+      --red-text: #ef4444;
+      --red-hover-bg: #fecaca;
+      --red-hover-text: #dc2626;
+      --gray-bg: #f1f5f9;
+      --gray-hover-bg: #e2e8f0;
+      --swatch-border: #f1f5f9;
+      --settings-bg: #ffffff;
+    }
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #e2e8f0;
+      --text-soft: #94a3b8;
+      --text-muted: #94a3b8;
+      --text-faint: #cbd5e1;
+      --heading: #f1f5f9;
+      --border: #334155;
+      --border-light: #1e293b;
+      --input-bg: #0f172a;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+      --shadow-md: 0 1px 3px rgba(0,0,0,0.25), 0 1px 2px rgba(0,0,0,0.2);
+      --empty-border: #334155;
+      --card-hover-border: #475569;
+      --badge-bg: rgba(99,102,241,0.15);
+      --red-bg: rgba(239,68,68,0.15);
+      --red-text: #fca5a5;
+      --red-hover-bg: rgba(239,68,68,0.25);
+      --red-hover-text: #fecaca;
+      --gray-bg: #334155;
+      --gray-hover-bg: #475569;
+      --swatch-border: #334155;
+      --settings-bg: #1e293b;
+    }
     *, *::before, *::after { box-sizing: border-box; }
     body {
       width: 380px;
@@ -10,227 +60,131 @@
       margin: 0;
       font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       font-size: 14px;
-      color: #1e293b;
-      background: #f8fafc;
+      color: var(--text);
+      background: var(--bg);
     }
-    .header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
+    .header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .header-left { flex: 1; display: flex; align-items: center; gap: 10px; }
     .header-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
+      width: 28px; height: 28px; border-radius: 8px;
       background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; flex-shrink: 0;
     }
-    h2 {
-      margin: 0;
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: #0f172a;
+    h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: var(--heading); }
+    .subtitle { font-size: 12px; color: var(--text-muted); margin: -4px 0 0 0; }
+    .header-donate { font-size: 11px; color: var(--text-faint); margin: 2px 0 0 0; }
+    .header-donate a { color: var(--text-faint); text-decoration: none; }
+    .header-donate a:hover { color: #6366f1; }
+    .btn-settings {
+      width: 28px; height: 28px; border-radius: 8px; border: none;
+      background: transparent; cursor: pointer; font-size: 16px;
+      color: var(--text-faint); flex-shrink: 0; padding: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, color 0.2s;
     }
-    .subtitle {
-      font-size: 12px;
-      color: #64748b;
-      margin: -4px 0 0 0;
+    .btn-settings:hover { background: var(--gray-bg); color: var(--heading); }
+
+    .settings-panel {
+      background: var(--settings-bg); border-radius: 12px; padding: 16px;
+      margin-bottom: 16px; box-shadow: var(--shadow-md);
+      display: none; flex-direction: column; gap: 12px;
     }
+    .settings-panel.open { display: flex; }
+    .settings-title {
+      font-size: 12px; font-weight: 600; color: var(--text-soft);
+      text-transform: uppercase; letter-spacing: 0.04em; margin: 0;
+    }
+    .theme-options { display: flex; gap: 6px; }
+    .theme-btn {
+      flex: 1; padding: 8px; border: 1.5px solid var(--border);
+      border-radius: 8px; background: var(--card); cursor: pointer;
+      font-family: inherit; font-size: 12px; font-weight: 500;
+      color: var(--text-muted); transition: all 0.2s;
+    }
+    .theme-btn:hover { border-color: #6366f1; color: var(--heading); }
+    .theme-btn.active { border-color: #6366f1; color: #6366f1; background: var(--badge-bg); font-weight: 600; }
+
     .input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-      background: #ffffff;
-      padding: 16px;
-      border-radius: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;
+      background: var(--card); padding: 16px; border-radius: 12px;
+      box-shadow: var(--shadow-md);
     }
     .input-group label {
-      font-size: 12px;
-      font-weight: 600;
-      color: #475569;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: -4px;
+      font-size: 12px; font-weight: 600; color: var(--text-soft);
+      text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: -4px;
     }
     input {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 13px;
-      font-family: inherit;
-      color: #1e293b;
-      background: #f8fafc;
-      outline: none;
+      width: 100%; padding: 10px 12px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 13px; font-family: inherit; color: var(--text);
+      background: var(--input-bg); outline: none;
       transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     }
-    input::placeholder { color: #94a3b8; }
-    input:focus {
-      border-color: #6366f1;
-      box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
-      background: #ffffff;
-    }
-    input[type="color"] {
-      height: 42px;
-      padding: 4px;
-      cursor: pointer;
-      border-radius: 8px;
-    }
+    input::placeholder { color: var(--text-faint); }
+    input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); background: var(--card); }
+    input[type="color"] { height: 42px; padding: 4px; cursor: pointer; border-radius: 8px; }
     input[type="color"]::-webkit-color-swatch-wrapper { padding: 2px; }
     input[type="color"]::-webkit-color-swatch { border: none; border-radius: 6px; }
     .input-group .checkbox-label {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 10px;
-      font-weight: 400;
-      text-transform: none;
-      letter-spacing: normal;
-      color: #94a3b8;
-      cursor: pointer;
-      user-select: none;
-      line-height: 1;
-      margin-bottom: 6px;
+      display: flex; align-items: center; gap: 4px; font-size: 10px;
+      font-weight: 400; text-transform: none; letter-spacing: normal;
+      color: var(--text-faint); cursor: pointer; user-select: none;
+      line-height: 1; margin-bottom: 6px;
     }
-    .input-group .checkbox-label input[type="checkbox"] {
-      width: 10px;
-      height: 10px;
-      accent-color: #6366f1;
-      cursor: pointer;
-      flex-shrink: 0;
-      margin: 0;
-    }
-    button {
-      border: none;
-      cursor: pointer;
-      font-family: inherit;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
+    .input-group .checkbox-label input[type="checkbox"] { width: 10px; height: 10px; accent-color: #6366f1; cursor: pointer; flex-shrink: 0; margin: 0; }
+    button { border: none; cursor: pointer; font-family: inherit; font-weight: 600; transition: all 0.2s; }
     .btn-add {
-      width: 100%;
-      padding: 10px 16px;
+      width: 100%; padding: 10px 16px;
       background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      color: white;
-      border-radius: 8px;
-      font-size: 13px;
-      letter-spacing: 0.01em;
-      box-shadow: 0 1px 3px rgba(99,102,241,0.3);
+      color: white; border-radius: 8px; font-size: 13px;
+      letter-spacing: 0.01em; box-shadow: 0 1px 3px rgba(99,102,241,0.3);
     }
-    .btn-add:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(99,102,241,0.4);
-    }
-    .btn-add:active {
-      transform: translateY(0);
-    }
-    #rulesList {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    .btn-add:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(99,102,241,0.4); }
+    .btn-add:active { transform: translateY(0); }
+    .btn-cancel-action { background: var(--gray-bg); color: var(--text-soft); padding: 10px 16px; border-radius: 8px; font-size: 13px; white-space: nowrap; }
+    .btn-cancel-action:hover { background: var(--gray-hover-bg); }
+    #rulesList { display: flex; flex-direction: column; gap: 6px; }
     .rule {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      background: #ffffff;
-      border-radius: 10px;
-      font-size: 13px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-      border: 1px solid #f1f5f9;
+      display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+      background: var(--card); border-radius: 10px; font-size: 13px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--border-light);
       transition: box-shadow 0.2s, border-color 0.2s;
     }
-    .rule:hover {
-      border-color: #e2e8f0;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
-    .rule .swatch {
-      width: 24px;
-      height: 24px;
-      border-radius: 8px;
-      border: 2px solid #f1f5f9;
-      flex-shrink: 0;
-    }
+    .rule:hover { border-color: var(--card-hover-border); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .rule .swatch { width: 24px; height: 24px; border-radius: 8px; border: 2px solid var(--swatch-border); flex-shrink: 0; }
     .rule .info { flex: 1; overflow: hidden; }
     .rule .info div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .rule .domain {
-      font-weight: 600;
-      font-size: 13px;
-      color: #0f172a;
-    }
-    .rule .selector {
-      font-size: 12px;
-      color: #64748b;
-      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-    }
-    .exact-badge {
-      font-size: 10px;
-      font-weight: 600;
-      color: #6366f1;
-      background: #eef2ff;
-      padding: 1px 6px;
-      border-radius: 4px;
-      margin-left: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-    .btn-remove {
-      background: #fee2e2;
-      color: #ef4444;
-      padding: 6px 10px;
-      font-size: 11px;
-      border-radius: 6px;
-      font-weight: 600;
-      flex-shrink: 0;
-    }
-    .btn-remove:hover {
-      background: #fecaca;
-      color: #dc2626;
-    }
-    .empty {
-      text-align: center;
-      padding: 28px 16px;
-      color: #94a3b8;
-      font-size: 13px;
-      background: #ffffff;
-      border-radius: 12px;
-      border: 1.5px dashed #e2e8f0;
-    }
-    .empty-icon {
-      font-size: 28px;
-      margin-bottom: 8px;
-      opacity: 0.5;
-    }
-    .header-donate {
-      font-size: 11px;
-      color: #94a3b8;
-      margin: 2px 0 0 0;
-    }
-    .header-donate a {
-      color: #94a3b8;
-      text-decoration: none;
-    }
-    .header-donate a:hover {
-      color: #6366f1;
-    }
+    .rule .domain { font-weight: 600; font-size: 13px; color: var(--heading); }
+    .rule .selector { font-size: 12px; color: var(--text-muted); font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; }
+    .exact-badge { font-size: 10px; font-weight: 600; color: #6366f1; background: var(--badge-bg); padding: 1px 6px; border-radius: 4px; margin-left: 4px; text-transform: uppercase; letter-spacing: 0.03em; }
+    .rule-actions { display: flex; gap: 4px; flex-shrink: 0; }
+    .btn-remove { background: var(--red-bg); color: var(--red-text); padding: 6px 10px; font-size: 11px; border-radius: 6px; font-weight: 600; }
+    .btn-remove:hover { background: var(--red-hover-bg); color: var(--red-hover-text); }
+    .btn-edit { background: var(--badge-bg); color: #6366f1; padding: 6px 10px; font-size: 11px; border-radius: 6px; font-weight: 600; }
+    .btn-edit:hover { background: var(--badge-bg); opacity: 0.8; }
+    .empty { text-align: center; padding: 28px 16px; color: var(--text-faint); font-size: 13px; background: var(--card); border-radius: 12px; border: 1.5px dashed var(--empty-border); }
+    .empty-icon { font-size: 28px; margin-bottom: 8px; opacity: 0.5; }
   </style>
 </head>
 <body>
   <div class="header">
-    <div class="header-icon">🎨</div>
-    <div>
-      <h2>Colorize Domain</h2>
-      <p class="subtitle">Pinte elementos por domínio</p>
-      <p class="header-donate"><a href="https://buymeacoffee.com/gustavoferrarigranero" target="_blank">☕ doar</a></p>
+    <div class="header-left">
+      <div class="header-icon">🎨</div>
+      <div>
+        <h2>Colorize Domain</h2>
+        <p class="subtitle">Pinte elementos por domínio</p>
+        <p class="header-donate"><a href="https://buymeacoffee.com/gustavoferrarigranero" target="_blank">☕ doar</a></p>
+      </div>
+    </div>
+    <button class="btn-settings" id="settingsBtn" title="Configurações">⚙</button>
+  </div>
+  <div class="settings-panel" id="settingsPanel">
+    <p class="settings-title">Tema</p>
+    <div class="theme-options">
+      <button class="theme-btn" data-theme-value="light">Claro</button>
+      <button class="theme-btn" data-theme-value="dark">Escuro</button>
+      <button class="theme-btn" data-theme-value="system">Sistema</button>
     </div>
   </div>
   <div class="input-group">
@@ -243,8 +197,11 @@
     <label for="selector">Seletor CSS</label>
     <input id="selector" type="text" placeholder="ex: header, div.classe">
     <label for="color">Cor</label>
-    <input id="color" type="color" value="#ffcc00">
-    <button class="btn-add" id="addBtn">Adicionar regra</button>
+    <input id="color" type="color" value="#1a7a2e">
+    <div style="display:flex;gap:6px">
+      <button class="btn-add" id="addBtn" style="flex:1">Adicionar regra</button>
+      <button class="btn-cancel-action" id="cancelBtn" style="display:none">Cancelar</button>
+    </div>
   </div>
   <div id="rulesList"></div>
   <script src="popup.js"></script>
