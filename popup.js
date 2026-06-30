@@ -19,7 +19,7 @@ function createRuleEl(rule, index) {
   div.innerHTML = `
     <div class="swatch" style="background:${rule.color}"></div>
     <div class="info">
-      <div class="domain">${escapeHtml(rule.domain)}${rule.exact ? ' <span class="exact-badge">exato</span>' : ''}</div>
+      <div class="domain">${escapeHtml(rule.domain)}${rule.exact ? ' <span class="exact-badge">s/ sub</span>' : ''}</div>
       <div class="selector">${escapeHtml(rule.selector)}</div>
     </div>
     <div class="rule-actions">
